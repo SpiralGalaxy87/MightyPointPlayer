@@ -110,14 +110,14 @@ public class ImageTransitionsMain extends JFrame
 		
         Toolkit tk = Toolkit.getDefaultToolkit();
         Dimension d = tk.getScreenSize();
-        m_iScnWidth = d.width - 10;
-        m_iScnHeight = d.height - 10;
+        m_iScnWidth = d.width - 100;
+        m_iScnHeight = d.height - 100;
         
-        this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        //this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         this.setLocation(5, 5);
         this.setTitle("Slide Show Transitions Demonstration");
 		this.setSize(m_iScnWidth, m_iScnHeight);
-		this.setResizable(false);
+		this.setResizable(true);
 		this.getContentPane().setLayout(null); // We'll do our own layouts, thank you.
 		this.getContentPane().setBackground(Color.gray); // Set visible area to gray
 
@@ -135,10 +135,10 @@ public class ImageTransitionsMain extends JFrame
 		this.getContentPane().add(m_ButtonPanel);
 		
 		// Create the Display Options button
-		m_DisplayOptionsBtn = new JButton(new ImageIcon("Images/DisplayOptions.jpg"));
+		m_DisplayOptionsBtn = new JButton(new ImageIcon("C:\\Users\\Annaleise\\Documents\\NetBeansProjects\\mightyPointPlayer\\MightyPointPlayer\\src\\main\\java\\pkgImageTransitions\\Images\\DisplayOptions.jpg"));
 //		m_DisplayOptionsBtn = new JButton(new ImageIcon(getClass().getResource("DisplayOptions.jpg")));
 
-		m_DisplayOptionsBtn.setSize(20, 20);
+		m_DisplayOptionsBtn.setSize(200, 200);
 		m_DisplayOptionsBtn.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED));
 		m_DisplayOptionsBtn.setToolTipText("Click to set display options.");
 		m_DisplayOptionsBtn.addActionListener(
@@ -153,7 +153,7 @@ public class ImageTransitionsMain extends JFrame
 		m_ButtonPanel.add(m_DisplayOptionsBtn);	
 		
 		// Create the select image directory button
-		m_SelectImageDirBtn = new JButton(new ImageIcon("Images/OpenDirectory.jpg"));
+		m_SelectImageDirBtn = new JButton(new ImageIcon("C:\\Users\\Annaleise\\Documents\\NetBeansProjects\\mightyPointPlayer\\MightyPointPlayer\\src\\main\\java\\pkgImageTransitions\\Images\\OpenDirectory.jpg"));
 //		m_SelectImageDirBtn = new JButton(new ImageIcon(getClass().getResource("OpenDirectory.jpg")));
 		m_SelectImageDirBtn.setSize(20, 20);
 		m_SelectImageDirBtn.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED));
@@ -180,7 +180,7 @@ public class ImageTransitionsMain extends JFrame
 		m_ButtonPanel.add(m_SelectImageDirBtn);	
 		
 		// Create the previous image button
-		m_PrevImageBtn = new JButton(new ImageIcon("Images/BackArrow.jpg"));
+		m_PrevImageBtn = new JButton(new ImageIcon("C:\\Users\\Annaleise\\Documents\\NetBeansProjects\\mightyPointPlayer\\MightyPointPlayer\\src\\main\\java\\pkgImageTransitions\\Images\\BackArrow.jpg"));
 //		m_PrevImageBtn = new JButton(new ImageIcon(getClass().getResource("BackArrow.jpg")));
 		m_PrevImageBtn.setSize(20, 20);
 		m_PrevImageBtn.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED));
@@ -197,7 +197,7 @@ public class ImageTransitionsMain extends JFrame
 		m_ButtonPanel.add(m_PrevImageBtn);	
 		
 		// Create the next image button
-		m_NextImageBtn = new JButton(new ImageIcon("Images/NextArrow.jpg"));
+		m_NextImageBtn = new JButton(new ImageIcon("C:\\Users\\Annaleise\\Documents\\NetBeansProjects\\mightyPointPlayer\\MightyPointPlayer\\src\\main\\java\\pkgImageTransitions\\Images\\NextArrow.jpg"));
 //		m_NextImageBtn = new JButton(new ImageIcon(getClass().getResource("NextArrow.jpg")));
 		m_NextImageBtn.setSize(20, 20);
 		m_NextImageBtn.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED));
@@ -214,9 +214,9 @@ public class ImageTransitionsMain extends JFrame
 		m_ButtonPanel.add(m_NextImageBtn);	
 
 		// Create the exit button
-		m_ExitBtn = new JButton(new ImageIcon("Images/Exit.jpg"));
+		m_ExitBtn = new JButton(new ImageIcon("C:\\Users\\Annaleise\\Documents\\NetBeansProjects\\mightyPointPlayer\\MightyPointPlayer\\src\\main\\java\\pkgImageTransitions\\Images\\Exit.jpg"));
 //		m_ExitBtn = new JButton(new ImageIcon(getClass().getResource("Exit.jpg")));
-		m_ExitBtn.setSize(20, 20);
+		m_ExitBtn.setSize(200, 200);
 		m_ExitBtn.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED));
 		m_ExitBtn.setToolTipText("Click to exit the application.");
 		m_ExitBtn.addActionListener(
