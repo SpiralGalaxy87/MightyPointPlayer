@@ -1,0 +1,9 @@
+{
+"changeManually": "false",
+"imageDuration": 6
+
+"images":[
+"C:\\Users\\Annaleise\\Documents\\meemaw.png",
+"C:\\Users\\Annaleise\\Documents\\Fall 2021\\CS 499\\png_test\\wire.jpg"
+]
+}

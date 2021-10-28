@@ -11,6 +11,18 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.Vector;
+   
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.util.Iterator;
+import java.util.Map;
+  
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
+import displayImage.DisplayImage;
 
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
@@ -22,6 +34,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 import javax.swing.border.BevelBorder;
+
+        
 
 //=============================================================================
 /** Class: ImageViewer
@@ -86,6 +100,9 @@ public class ImageTransitionsMain extends JFrame
 	//------------------------------------------
 	/** Image directory to show */
 	private String m_sImageDir;
+        
+        /** Slideshow File **/
+        private String m_sSlideshowFile;
 	
 	/** Vector of image names */
 	private Vector<String> m_vImageNames = null;
@@ -330,8 +347,39 @@ public class ImageTransitionsMain extends JFrame
         	fileName = (String)(m_vImageNames.elementAt(i));
         	System.out.println(fileName);
         }
-*/        
-	}
+        */
+
+
+        try(FileReader fileReader = new FileReader("C:\\Users\\Annaleise\\Documents\\NetBeansProjects\\mightyPointPlayer\\MightyPointPlayer\\src\\main\\java\\pkgImageTransitions\\jsonTest.txt")){
+            
+            JSONParser jsonParser = new JSONParser();
+
+            // Read JSON file
+            Object obj = jsonParser.parse(fileReader);
+
+            JSONObject jo = (JSONObject) obj;
+            
+            //set manual change boolean
+            System.out.println(jo.get("changeManually"));  
+            m_bChangeManually = jo.get("changeManually").equals("true");
+            System.out.println(m_bChangeManually);
+            
+            //set image duration
+            m_iTimeDelay = (int) (long) jo.get("imageDuration");
+            
+                        
+            JSONArray images = (JSONArray) jo.get("images");
+            images.forEach( image -> m_vImageNames.add((String) image));
+            
+        } catch(FileNotFoundException e){
+            System.err.println("FileNotFoundException: " + e.getMessage());
+        } catch(IOException e){
+            System.err.println("IOException: " + e.getMessage());
+        } catch(ParseException e){
+            System.err.println("ParseException: " + e.getMessage());
+        }
+    }
+        
 	
 	//----------------------------------------------------------------------
 	/** Show the image at index. */
@@ -361,15 +409,21 @@ public class ImageTransitionsMain extends JFrame
         	m_TheImage = null; // Clear the previous image
         try
         {
-        	m_TheImage = ImageIO.read(imageFile);
-        	if (m_TheImage.getType() != BufferedImage.TYPE_INT_RGB) 
-        	{
-                BufferedImage bi2 =
-                    new BufferedImage(m_TheImage.getWidth(), m_TheImage.getHeight(), BufferedImage.TYPE_INT_RGB);
-                Graphics big = bi2.getGraphics();
-                big.drawImage(m_TheImage, 0, 0, null);
-                m_TheImage = bi2;
-        	}
+//        	m_TheImage = ImageIO.read(imageFile);
+//        	if (m_TheImage.getType() != BufferedImage.TYPE_INT_RGB) 
+//        	{
+//                BufferedImage bi2 =
+//                    new BufferedImage(m_TheImage.getWidth(), m_TheImage.getHeight(), BufferedImage.TYPE_INT_RGB);
+//                Graphics big = bi2.getGraphics();
+//                big.drawImage(m_TheImage, 0, 0, null);
+                
+            DisplayImage newImg = new DisplayImage(this.getSize().width, this.getSize().height);
+            BufferedImage dispImg = newImg.getDisplayImage(m_vImageNames.elementAt(idx));
+
+            m_TheImage = dispImg;
+       
+            //m_TheImage = bi2;
+     
         }
         catch (IOException e)
         {
