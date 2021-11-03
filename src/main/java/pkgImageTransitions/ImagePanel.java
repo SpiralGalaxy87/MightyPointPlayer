@@ -58,7 +58,7 @@ public class ImagePanel extends JPanel
 	{
 		m_Parent = parent;
 		this.setSize(m_Parent.getSize().width-5, 
-				m_Parent.getSize().height-60);   // Set the size 
+				m_Parent.getSize().height-100);   // Set the size 
 		this.setLocation(0, 0);       // Set the location in the window
 		this.setBackground(Color.BLACK); // Set the panel color
 		this.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED)); // Give it a border

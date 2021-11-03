@@ -134,7 +134,7 @@ public class ImageTransitionsMain extends JFrame
         this.setLocation(5, 5);
         this.setTitle("Slide Show Transitions Demonstration");
 		this.setSize(m_iScnWidth, m_iScnHeight);
-		this.setResizable(true);
+		this.setResizable(false);
 		this.getContentPane().setLayout(null); // We'll do our own layouts, thank you.
 		this.getContentPane().setBackground(Color.gray); // Set visible area to gray
 
@@ -144,8 +144,8 @@ public class ImageTransitionsMain extends JFrame
 
 		// Create the button panel
 		m_ButtonPanel = new JPanel();
-		m_ButtonPanel.setSize(this.getSize().width, 35);
-		m_ButtonPanel.setLocation(0, this.getSize().height-60);
+		m_ButtonPanel.setSize(this.getSize().width, 100);
+		m_ButtonPanel.setLocation(0, this.getSize().height - 100);
 		m_ButtonPanel.setBackground(Color.lightGray); // Set the panel color
 		m_ButtonPanel.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED));
 		// Use the default Flow Layout manager
@@ -155,24 +155,24 @@ public class ImageTransitionsMain extends JFrame
 		m_DisplayOptionsBtn = new JButton(new ImageIcon("C:\\Users\\Annaleise\\Documents\\NetBeansProjects\\mightyPointPlayer\\MightyPointPlayer\\src\\main\\java\\pkgImageTransitions\\Images\\DisplayOptions.jpg"));
 //		m_DisplayOptionsBtn = new JButton(new ImageIcon(getClass().getResource("DisplayOptions.jpg")));
 
-		m_DisplayOptionsBtn.setSize(200, 200);
-		m_DisplayOptionsBtn.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED));
-		m_DisplayOptionsBtn.setToolTipText("Click to set display options.");
-		m_DisplayOptionsBtn.addActionListener(
-				new ActionListener()
-				{
-					public void actionPerformed(ActionEvent e)
-					{
-						//	Handle setting the display options
-						setDisplayOptions();
-					}
-				});
-		m_ButtonPanel.add(m_DisplayOptionsBtn);	
+//		m_DisplayOptionsBtn.setPreferredSize(new Dimension(40, 40));
+//		m_DisplayOptionsBtn.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED));
+//		m_DisplayOptionsBtn.setToolTipText("Click to set display options.");
+//		m_DisplayOptionsBtn.addActionListener(
+//				new ActionListener()
+//				{
+//					public void actionPerformed(ActionEvent e)
+//					{
+//						//	Handle setting the display options
+//						setDisplayOptions();
+//					}
+//				});
+//		m_ButtonPanel.add(m_DisplayOptionsBtn);	
 		
 		// Create the select image directory button
 		m_SelectImageDirBtn = new JButton(new ImageIcon("C:\\Users\\Annaleise\\Documents\\NetBeansProjects\\mightyPointPlayer\\MightyPointPlayer\\src\\main\\java\\pkgImageTransitions\\Images\\OpenDirectory.jpg"));
 //		m_SelectImageDirBtn = new JButton(new ImageIcon(getClass().getResource("OpenDirectory.jpg")));
-		m_SelectImageDirBtn.setSize(20, 20);
+		m_SelectImageDirBtn.setPreferredSize(new Dimension(40, 40));
 		m_SelectImageDirBtn.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED));
 		m_SelectImageDirBtn.setToolTipText("Click to select directory of images to view.");
 		m_SelectImageDirBtn.addActionListener(
@@ -182,7 +182,7 @@ public class ImageTransitionsMain extends JFrame
 					{
 						//	Handle getting the image directory to show
 						getImageDir();
-						if(m_sImageDir != null)
+						if(m_sSlideshowFile != null)
 						{
 							buildImageList();
 							showImage(m_iCurImageIdx); // Show first image
@@ -199,7 +199,7 @@ public class ImageTransitionsMain extends JFrame
 		// Create the previous image button
 		m_PrevImageBtn = new JButton(new ImageIcon("C:\\Users\\Annaleise\\Documents\\NetBeansProjects\\mightyPointPlayer\\MightyPointPlayer\\src\\main\\java\\pkgImageTransitions\\Images\\BackArrow.jpg"));
 //		m_PrevImageBtn = new JButton(new ImageIcon(getClass().getResource("BackArrow.jpg")));
-		m_PrevImageBtn.setSize(20, 20);
+		m_PrevImageBtn.setPreferredSize(new Dimension(40, 40));
 		m_PrevImageBtn.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED));
 		m_PrevImageBtn.setToolTipText("View previous image.");
 		m_PrevImageBtn.addActionListener(
@@ -216,7 +216,7 @@ public class ImageTransitionsMain extends JFrame
 		// Create the next image button
 		m_NextImageBtn = new JButton(new ImageIcon("C:\\Users\\Annaleise\\Documents\\NetBeansProjects\\mightyPointPlayer\\MightyPointPlayer\\src\\main\\java\\pkgImageTransitions\\Images\\NextArrow.jpg"));
 //		m_NextImageBtn = new JButton(new ImageIcon(getClass().getResource("NextArrow.jpg")));
-		m_NextImageBtn.setSize(20, 20);
+		m_NextImageBtn.setPreferredSize(new Dimension(40, 40));
 		m_NextImageBtn.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED));
 		m_NextImageBtn.setToolTipText("View next image.");
 		m_NextImageBtn.addActionListener(
@@ -233,7 +233,7 @@ public class ImageTransitionsMain extends JFrame
 		// Create the exit button
 		m_ExitBtn = new JButton(new ImageIcon("C:\\Users\\Annaleise\\Documents\\NetBeansProjects\\mightyPointPlayer\\MightyPointPlayer\\src\\main\\java\\pkgImageTransitions\\Images\\Exit.jpg"));
 //		m_ExitBtn = new JButton(new ImageIcon(getClass().getResource("Exit.jpg")));
-		m_ExitBtn.setSize(200, 200);
+		m_ExitBtn.setPreferredSize(new Dimension(40, 40));
 		m_ExitBtn.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED));
 		m_ExitBtn.setToolTipText("Click to exit the application.");
 		m_ExitBtn.addActionListener(
@@ -281,16 +281,16 @@ public class ImageTransitionsMain extends JFrame
 		int retValue;	// Return value from the JFileChooser
 		
 	     JFileChooser chooser = new JFileChooser();	// Create the file chooser dialog box
-	     chooser.setDialogTitle("Select Image Directory"); // Set dialog title
-	     chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY); // Only select dirs
+	     chooser.setDialogTitle("Select Slideshow File"); // Set dialog title
+	     chooser.setFileSelectionMode(JFileChooser.FILES_ONLY); // Only select dirs
 	     chooser.setApproveButtonText("Select");
 	     retValue = chooser.showOpenDialog(this); // Show the dialog box
 	     if(retValue == JFileChooser.APPROVE_OPTION) // User selected a file
 	     {
 	    	 // Got a directory so get it's full path
-	    	 m_sImageDir = chooser.getSelectedFile().getAbsolutePath();
+	    	 m_sSlideshowFile = chooser.getSelectedFile().getAbsolutePath();
 	     }
-//		System.out.println("Dir: " + m_sImageDir);
+		System.out.println("File: " + m_sSlideshowFile);
 	}
 	
 	//----------------------------------------------------------------------
@@ -298,59 +298,55 @@ public class ImageTransitionsMain extends JFrame
 	//----------------------------------------------------------------------
 	private void buildImageList()
 	{
-        File		chosenDir; // Directory of images
-        File[]		fileList;  // Array of files in the directory
-        String		fileName;  // Name of a file
-
+            System.out.println("this ran");
         // Create the vector of names
         if(m_vImageNames != null) // If we already have one
         	m_vImageNames.removeAllElements(); // Clean it out
         else                      // If we don't have one
         	m_vImageNames = new Vector(); // Create a new one.
         // Open the directory
-        chosenDir = new File(m_sImageDir);
-        if(chosenDir != null)	// If we opened it successfully
-        {
-        	fileList = chosenDir.listFiles(); // Get a list of all files
-        	// Go through the list and get the complete path of all image
-        	// files (those with .jpg and/or .gif)
-        	for(int i=0; i<fileList.length; i++)
-        	{
-        		fileName = fileList[i].getAbsolutePath(); // Get path name
-        		// Is it a .jpg file?
-        		if((fileName.endsWith(".jpg")) || (fileName.endsWith(".JPG")))  
-        		{
-        			// 1 == show only JPG      3 == show JPG and GIF
-        			if((m_iShowTypes == 1) || (m_iShowTypes == 3))
-        				m_vImageNames.add(fileName); // Add this one to the list
-        		}
-        		else if((fileName.endsWith(".jpeg")) || (fileName.endsWith(".JPEG")))  
-        		{
-        			// 1 == show only JPG      3 == show JPG and GIF
-        			if((m_iShowTypes == 1) || (m_iShowTypes == 3))
-        				m_vImageNames.add(fileName); // Add this one to the list
-        		}
-        		// Is it a .gif file?
-        		else if((fileName.endsWith(".gif")) || (fileName.endsWith(".GIF"))) // Is it a .gif file?
-        		{
-        			// 2 == show only GIF      3 == show JPG and GIF
-        			if((m_iShowTypes == 2) || (m_iShowTypes == 3))
-        				m_vImageNames.add(fileName); // Add this one to the list
-        		}
-        	} // end for loop
-        	m_iCurImageIdx = 0; // Initialize the current image index 
-        } // end if(chosenDir != null)
-        // You can add the loop below just to check.  Then comment it out
+//        chosenDir = new File(m_sImageDir);
+//        if(chosenDir != null)	// If we opened it successfully
+//        {
+//        	fileList = chosenDir.listFiles(); // Get a list of all files
+//        	// Go through the list and get the complete path of all image
+//        	// files (those with .jpg and/or .gif)
+//        	for(int i=0; i<fileList.length; i++)
+//        	{
+//        		fileName = fileList[i].getAbsolutePath(); // Get path name
+//        		// Is it a .jpg file?
+//        		if((fileName.endsWith(".jpg")) || (fileName.endsWith(".JPG")))  
+//        		{
+//        			// 1 == show only JPG      3 == show JPG and GIF
+//        			if((m_iShowTypes == 1) || (m_iShowTypes == 3))
+//        				m_vImageNames.add(fileName); // Add this one to the list
+//        		}
+//        		else if((fileName.endsWith(".jpeg")) || (fileName.endsWith(".JPEG")))  
+//        		{
+//        			// 1 == show only JPG      3 == show JPG and GIF
+//        			if((m_iShowTypes == 1) || (m_iShowTypes == 3))
+//        				m_vImageNames.add(fileName); // Add this one to the list
+//        		}
+//        		// Is it a .gif file?
+//        		else if((fileName.endsWith(".gif")) || (fileName.endsWith(".GIF"))) // Is it a .gif file?
+//        		{
+//        			// 2 == show only GIF      3 == show JPG and GIF
+//        			if((m_iShowTypes == 2) || (m_iShowTypes == 3))
+//        				m_vImageNames.add(fileName); // Add this one to the list
+//        		}
+//        	} // end for loop
+//        	m_iCurImageIdx = 0; // Initialize the current image index 
+//        } // end if(chosenDir != null)
+//        // You can add the loop below just to check.  Then comment it out
         
-/*        for(int i=0; i< m_vImageNames.size(); i++)
+        /*        for(int i=0; i< m_vImageNames.size(); i++)
         {
         	fileName = (String)(m_vImageNames.elementAt(i));
         	System.out.println(fileName);
         }
         */
 
-
-        try(FileReader fileReader = new FileReader("C:\\Users\\Annaleise\\Documents\\NetBeansProjects\\mightyPointPlayer\\MightyPointPlayer\\src\\main\\java\\pkgImageTransitions\\jsonTest.txt")){
+        try(FileReader fileReader = new FileReader(m_sSlideshowFile)){
             
             JSONParser jsonParser = new JSONParser();
 
@@ -367,7 +363,7 @@ public class ImageTransitionsMain extends JFrame
             //set image duration
             m_iTimeDelay = (int) (long) jo.get("imageDuration");
             
-                        
+            
             JSONArray images = (JSONArray) jo.get("images");
             images.forEach( image -> m_vImageNames.add((String) image));
             
@@ -378,6 +374,8 @@ public class ImageTransitionsMain extends JFrame
         } catch(ParseException e){
             System.err.println("ParseException: " + e.getMessage());
         }
+        
+        m_iCurImageIdx = 0; // Initialize the current image index
     }
         
 	
