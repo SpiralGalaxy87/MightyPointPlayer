@@ -59,6 +59,9 @@ public class ImageTransitionsMain extends JFrame
 	
 	/** Switch to previous image button */
 	private JButton m_PrevImageBtn;
+        
+        /** Play/Pause Slideshow button */
+	private JButton m_PlayBtn;
 	
 	/** Switch to next image button */
 	private JButton m_NextImageBtn;
@@ -194,6 +197,7 @@ public class ImageTransitionsMain extends JFrame
 						showPreviousImage();
 					}
 				});
+                
 		m_ButtonPanel.add(m_PrevImageBtn);	
 		
 		// Create the next image button
@@ -209,6 +213,23 @@ public class ImageTransitionsMain extends JFrame
 					{
 						//	Show the next image
 						showNextImage();
+					}
+				});
+                m_ButtonPanel.add(m_PlayBtn);	
+		
+		// Create the Play/Pause button
+		m_NextImageBtn = new JButton(new ImageIcon("C:\\Users\\Annaleise\\Documents\\NetBeansProjects\\mightyPointPlayer\\MightyPointPlayer\\src\\main\\java\\pkgImageTransitions\\Images\\Play.jpg"));
+//		m_NextImageBtn = new JButton(new ImageIcon(getClass().getResource("Play.jpg")));
+		m_NextImageBtn.setSize(20, 20);
+		m_NextImageBtn.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED));
+		m_NextImageBtn.setToolTipText("Play or Pause Slideshow.");
+		m_NextImageBtn.addActionListener(
+				new ActionListener()
+				{
+					public void actionPerformed(ActionEvent e)
+					{
+						//	Play Slideshow 
+						//PlaySlideshow();
 					}
 				});
 		m_ButtonPanel.add(m_NextImageBtn);	
