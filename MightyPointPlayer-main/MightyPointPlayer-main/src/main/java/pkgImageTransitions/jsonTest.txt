@@ -1,0 +1,24 @@
+{
+"changeManually": "false",
+"imageDuration": 6
+
+"images":[
+"C:\Users\Taylor\Desktop\MightyPointPlayer-main\MightyPointPlayer-main\src\main\java\pkgImageTransitions\1.jpg",
+"C:\Users\Taylor\Desktop\MightyPointPlayer-main\MightyPointPlayer-main\src\main\java\pkgImageTransitions\2.jpg",
+"C:\Users\Taylor\Desktop\MightyPointPlayer-main\MightyPointPlayer-main\src\main\java\pkgImageTransitions\3.jpg",
+"C:\Users\Taylor\Desktop\MightyPointPlayer-main\MightyPointPlayer-main\src\main\java\pkgImageTransitions\4.jpg",
+"C:\Users\Taylor\Desktop\MightyPointPlayer-main\MightyPointPlayer-main\src\main\java\pkgImageTransitions\5.jpg",
+"C:\Users\Taylor\Desktop\MightyPointPlayer-main\MightyPointPlayer-main\src\main\java\pkgImageTransitions\6.jpg",
+"C:\Users\Taylor\Desktop\MightyPointPlayer-main\MightyPointPlayer-main\src\main\java\pkgImageTransitions\7.jpg",
+"C:\Users\Taylor\Desktop\MightyPointPlayer-main\MightyPointPlayer-main\src\main\java\pkgImageTransitions\8.jpg",
+"C:\Users\Taylor\Desktop\MightyPointPlayer-main\MightyPointPlayer-main\src\main\java\pkgImageTransitions\9.jpg",
+"C:\Users\Taylor\Desktop\MightyPointPlayer-main\MightyPointPlayer-main\src\main\java\pkgImageTransitions\10.jpg",
+"C:\Users\Taylor\Desktop\MightyPointPlayer-main\MightyPointPlayer-main\src\main\java\pkgImageTransitions\11.jpg",
+"C:\Users\Taylor\Desktop\MightyPointPlayer-main\MightyPointPlayer-main\src\main\java\pkgImageTransitions\12.jpg",
+"C:\Users\Taylor\Desktop\MightyPointPlayer-main\MightyPointPlayer-main\src\main\java\pkgImageTransitions\13.jpg"
+
+]
+"sounds": [
+"C:\Users\Taylor\Desktop\MightyPointPlayer-main\MightyPointPlayer-main\src\main\java\pkgImageTransitions\ccr.wav"
+]
+}

@@ -1,5 +1,6 @@
 package pkgImageTransitions;
 
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -35,7 +36,18 @@ import javax.swing.JPanel;
 import javax.swing.Timer;
 import javax.swing.border.BevelBorder;
 
-        
+import java.io.File;
+import java.io.IOException;
+import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
+       
 
 //=============================================================================
 /** Class: ImageViewer
@@ -73,9 +85,6 @@ public class ImageTransitionsMain extends JFrame
 	
 	/** Switch to previous image button */
 	private JButton m_PrevImageBtn;
-        
-        /** Play/Pause Slideshow button */
-	private JButton m_PlayBtn;
 	
 	/** Switch to next image button */
 	private JButton m_NextImageBtn;
@@ -109,16 +118,24 @@ public class ImageTransitionsMain extends JFrame
 	
 	/** Vector of image names */
 	private Vector<String> m_vImageNames = null;
+        private Vector<String> m_vSoundNames = null;
 	
 	/** Index of the current image */
 	private int m_iCurImageIdx;
+        private int m_iCurSoundIdx;
 	
 	/** Image currently displayed */
-	private BufferedImage  m_TheImage = null;	
-
+	private BufferedImage  m_TheImage = null;
+        //private SimpleAudioPlayer m_TheSound = null;
 	/** Timer for slideshows */
 	private Timer m_SSTimer;
-
+        
+         Long currentFrame;
+         Clip clip;
+         String status;
+         AudioInputStream audioInputStream;
+         static String filePath;
+         
 	//---------------------------------------------------
 	/** Default constructor */
 	//---------------------------------------------------
@@ -155,7 +172,7 @@ public class ImageTransitionsMain extends JFrame
 		this.getContentPane().add(m_ButtonPanel);
 		
 		// Create the Display Options button
-		m_DisplayOptionsBtn = new JButton(new ImageIcon("C:\\Users\\Annaleise\\Documents\\NetBeansProjects\\mightyPointPlayer\\MightyPointPlayer\\src\\main\\java\\pkgImageTransitions\\Images\\DisplayOptions.jpg"));
+		m_DisplayOptionsBtn = new JButton(new ImageIcon("C:\\Users\\Taylor\\Desktop\\MightyPointPlayer-main\\MightyPointPlayer-main\\src\\main\\java\\pkgImageTransitions\\DisplayOptions.jpg"));
 //		m_DisplayOptionsBtn = new JButton(new ImageIcon(getClass().getResource("DisplayOptions.jpg")));
 
 //		m_DisplayOptionsBtn.setPreferredSize(new Dimension(40, 40));
@@ -173,7 +190,7 @@ public class ImageTransitionsMain extends JFrame
 //		m_ButtonPanel.add(m_DisplayOptionsBtn);	
 		
 		// Create the select image directory button
-		m_SelectImageDirBtn = new JButton(new ImageIcon("C:\\Users\\Annaleise\\Documents\\NetBeansProjects\\mightyPointPlayer\\MightyPointPlayer\\src\\main\\java\\pkgImageTransitions\\Images\\OpenDirectory.jpg"));
+		m_SelectImageDirBtn = new JButton(new ImageIcon("C:\\Users\\Taylor\\Desktop\\MightyPointPlayer-main\\MightyPointPlayer-main\\src\\main\\java\\pkgImageTransitions\\OpenDirectory.jpg"));
 //		m_SelectImageDirBtn = new JButton(new ImageIcon(getClass().getResource("OpenDirectory.jpg")));
 		m_SelectImageDirBtn.setPreferredSize(new Dimension(40, 40));
 		m_SelectImageDirBtn.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED));
@@ -187,8 +204,34 @@ public class ImageTransitionsMain extends JFrame
 						getImageDir();
 						if(m_sSlideshowFile != null)
 						{
-							buildImageList();
-							showImage(m_iCurImageIdx); // Show first image
+                                                   
+                                                       buildImageList();
+                                                       showImage(m_iCurImageIdx); // Show first image
+                                                        filePath = "C:\\Users\\Taylor\\Desktop\\MightyPointPlayer-main\\MightyPointPlayer-main\\src\\main\\java\\pkgImageTransitions\\ccr.wav";
+                                                        try{
+                                                        SimpleAudioPlayer audioPlayer = new SimpleAudioPlayer();
+                                                        
+                                                        audioPlayer.play();
+                                                        }
+                                                        catch (Exception ex)
+                                                        {
+                                                             System.out.println("Error with playing sound.");
+            ex.printStackTrace();                            ex.printStackTrace();
+                                                        }
+                                                       /*buildSoundsList();
+                                                       System.out.print("sound built");
+                                                        try {
+                                                    playSound(m_iCurSoundIdx);
+                                                    
+                                                     System.out.print("sound shoulda played");
+                                                } catch (UnsupportedAudioFileException ex) {
+                                                    Logger.getLogger(ImageTransitionsMain.class.getName()).log(Level.SEVERE, null, ex);
+                                                } catch (IOException ex) {
+                                                    Logger.getLogger(ImageTransitionsMain.class.getName()).log(Level.SEVERE, null, ex);
+                                                } catch (LineUnavailableException ex) {
+                                                    Logger.getLogger(ImageTransitionsMain.class.getName()).log(Level.SEVERE, null, ex);
+                                                }*/
+                                                 
 						}
 						// Are we doing a slideshow with timer?
 						if(!m_bChangeManually)
@@ -200,7 +243,7 @@ public class ImageTransitionsMain extends JFrame
 		m_ButtonPanel.add(m_SelectImageDirBtn);	
 		
 		// Create the previous image button
-		m_PrevImageBtn = new JButton(new ImageIcon("C:\\Users\\Annaleise\\Documents\\NetBeansProjects\\mightyPointPlayer\\MightyPointPlayer\\src\\main\\java\\pkgImageTransitions\\Images\\BackArrow.jpg"));
+		m_PrevImageBtn = new JButton(new ImageIcon("C:\\Users\\Taylor\\Desktop\\MightyPointPlayer-main\\MightyPointPlayer-main\\src\\main\\java\\pkgImageTransitions\\BackArrow.jpg"));
 //		m_PrevImageBtn = new JButton(new ImageIcon(getClass().getResource("BackArrow.jpg")));
 		m_PrevImageBtn.setPreferredSize(new Dimension(40, 40));
 		m_PrevImageBtn.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED));
@@ -214,11 +257,10 @@ public class ImageTransitionsMain extends JFrame
 						showPreviousImage();
 					}
 				});
-                
 		m_ButtonPanel.add(m_PrevImageBtn);	
 		
 		// Create the next image button
-		m_NextImageBtn = new JButton(new ImageIcon("C:\\Users\\Annaleise\\Documents\\NetBeansProjects\\mightyPointPlayer\\MightyPointPlayer\\src\\main\\java\\pkgImageTransitions\\Images\\NextArrow.jpg"));
+		m_NextImageBtn = new JButton(new ImageIcon("C:\\Users\\Taylor\\Desktop\\MightyPointPlayer-main\\MightyPointPlayer-main\\src\\main\\java\\pkgImageTransitions\\NextArrow.jpg"));
 //		m_NextImageBtn = new JButton(new ImageIcon(getClass().getResource("NextArrow.jpg")));
 		m_NextImageBtn.setPreferredSize(new Dimension(40, 40));
 		m_NextImageBtn.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED));
@@ -230,29 +272,14 @@ public class ImageTransitionsMain extends JFrame
 					{
 						//	Show the next image
 						showNextImage();
-					}
-				});
-                m_ButtonPanel.add(m_PlayBtn);	
-		
-		// Create the Play/Pause button
-		m_NextImageBtn = new JButton(new ImageIcon("C:\\Users\\Annaleise\\Documents\\NetBeansProjects\\mightyPointPlayer\\MightyPointPlayer\\src\\main\\java\\pkgImageTransitions\\Images\\Play.jpg"));
-//		m_NextImageBtn = new JButton(new ImageIcon(getClass().getResource("Play.jpg")));
-		m_NextImageBtn.setSize(20, 20);
-		m_NextImageBtn.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED));
-		m_NextImageBtn.setToolTipText("Play or Pause Slideshow.");
-		m_NextImageBtn.addActionListener(
-				new ActionListener()
-				{
-					public void actionPerformed(ActionEvent e)
-					{
-						//	Play Slideshow 
-						//PlaySlideshow();
+                                             
+                                            
 					}
 				});
 		m_ButtonPanel.add(m_NextImageBtn);	
 
 		// Create the exit button
-		m_ExitBtn = new JButton(new ImageIcon("C:\\Users\\Annaleise\\Documents\\NetBeansProjects\\mightyPointPlayer\\MightyPointPlayer\\src\\main\\java\\pkgImageTransitions\\Images\\Exit.jpg"));
+		m_ExitBtn = new JButton(new ImageIcon("C:\\Users\\Taylor\\Desktop\\MightyPointPlayer-main\\MightyPointPlayer-main\\src\\main\\java\\pkgImageTransitions\\Exit.jpg"));
 //		m_ExitBtn = new JButton(new ImageIcon(getClass().getResource("Exit.jpg")));
 		m_ExitBtn.setPreferredSize(new Dimension(40, 40));
 		m_ExitBtn.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED));
@@ -325,48 +352,8 @@ public class ImageTransitionsMain extends JFrame
         	m_vImageNames.removeAllElements(); // Clean it out
         else                      // If we don't have one
         	m_vImageNames = new Vector(); // Create a new one.
-        // Open the directory
-//        chosenDir = new File(m_sImageDir);
-//        if(chosenDir != null)	// If we opened it successfully
-//        {
-//        	fileList = chosenDir.listFiles(); // Get a list of all files
-//        	// Go through the list and get the complete path of all image
-//        	// files (those with .jpg and/or .gif)
-//        	for(int i=0; i<fileList.length; i++)
-//        	{
-//        		fileName = fileList[i].getAbsolutePath(); // Get path name
-//        		// Is it a .jpg file?
-//        		if((fileName.endsWith(".jpg")) || (fileName.endsWith(".JPG")))  
-//        		{
-//        			// 1 == show only JPG      3 == show JPG and GIF
-//        			if((m_iShowTypes == 1) || (m_iShowTypes == 3))
-//        				m_vImageNames.add(fileName); // Add this one to the list
-//        		}
-//        		else if((fileName.endsWith(".jpeg")) || (fileName.endsWith(".JPEG")))  
-//        		{
-//        			// 1 == show only JPG      3 == show JPG and GIF
-//        			if((m_iShowTypes == 1) || (m_iShowTypes == 3))
-//        				m_vImageNames.add(fileName); // Add this one to the list
-//        		}
-//        		// Is it a .gif file?
-//        		else if((fileName.endsWith(".gif")) || (fileName.endsWith(".GIF"))) // Is it a .gif file?
-//        		{
-//        			// 2 == show only GIF      3 == show JPG and GIF
-//        			if((m_iShowTypes == 2) || (m_iShowTypes == 3))
-//        				m_vImageNames.add(fileName); // Add this one to the list
-//        		}
-//        	} // end for loop
-//        	m_iCurImageIdx = 0; // Initialize the current image index 
-//        } // end if(chosenDir != null)
-//        // You can add the loop below just to check.  Then comment it out
+               
         
-        /*        for(int i=0; i< m_vImageNames.size(); i++)
-        {
-        	fileName = (String)(m_vImageNames.elementAt(i));
-        	System.out.println(fileName);
-        }
-        */
-
         try(FileReader fileReader = new FileReader(m_sSlideshowFile)){
             
             JSONParser jsonParser = new JSONParser();
@@ -387,6 +374,8 @@ public class ImageTransitionsMain extends JFrame
             
             JSONArray images = (JSONArray) jo.get("images");
             images.forEach( image -> m_vImageNames.add((String) image));
+            
+        
             
         } catch(FileNotFoundException e){
             System.err.println("FileNotFoundException: " + e.getMessage());
@@ -428,13 +417,7 @@ public class ImageTransitionsMain extends JFrame
         	m_TheImage = null; // Clear the previous image
         try
         {
-//        	m_TheImage = ImageIO.read(imageFile);
-//        	if (m_TheImage.getType() != BufferedImage.TYPE_INT_RGB) 
-//        	{
-//                BufferedImage bi2 =
-//                    new BufferedImage(m_TheImage.getWidth(), m_TheImage.getHeight(), BufferedImage.TYPE_INT_RGB);
-//                Graphics big = bi2.getGraphics();
-//                big.drawImage(m_TheImage, 0, 0, null);
+//       
                 
             DisplayImage newImg = new DisplayImage(this.getSize().width, this.getSize().height);
             BufferedImage dispImg = newImg.getDisplayImage(m_vImageNames.elementAt(idx));
@@ -510,7 +493,71 @@ public class ImageTransitionsMain extends JFrame
 		m_SSTimer.setRepeats(true); // Repeat till we kill it
 		m_SSTimer.start();  // Start the timer
 	}
-	
+
+        
+        private void buildSoundsList()
+        {
+             // Create the vector of names
+        if(m_vSoundNames != null) // If we already have one
+        	m_vSoundNames.removeAllElements(); // Clean it out
+        else                      // If we don't have one
+        	m_vSoundNames = new Vector(); // Create a new one.
+        try(FileReader fileReader = new FileReader(m_sSlideshowFile)){
+         JSONParser jsonParser = new JSONParser();
+
+        // Read JSON file
+        Object obj = jsonParser.parse(fileReader);
+
+        JSONObject jo = (JSONObject) obj;
+        JSONArray sounds = (JSONArray) jo.get("sounds");
+       
+        
+        sounds.forEach(sound -> m_vSoundNames.add((String) sound));
+        System.out.print(m_vSoundNames);
+        }
+        
+        catch(FileNotFoundException e){
+        System.err.println("FileNotFoundException: " + e.getMessage());
+        } catch(IOException e){
+        System.err.println("IOException: " + e.getMessage());
+        } catch(ParseException e){
+        System.err.println("ParseException: " + e.getMessage());
+        }
+
+        m_iCurSoundIdx = 0; // Initialize the current sound index
+        }
+        
+        private void playSound(int idx) throws UnsupportedAudioFileException, IOException, LineUnavailableException
+        {
+            File soundFile;
+            if(m_vSoundNames.size() < 0 || (idx >= m_vSoundNames.size()))
+            {
+                System.out.print("error sound");
+                JOptionPane.showMessageDialog(this, "Error: Unable to load sound"+idx+", does not exist.","Error Loading Sound",JOptionPane.ERROR_MESSAGE);
+                return;     
+            }
+            soundFile = new File((String)m_vSoundNames.elementAt(idx));
+            if(!soundFile.exists())
+            {
+                System.out.print("found sound file");
+                JOptionPane.showMessageDialog(this,
+                "Error: Unable to load " + (String)(m_vSoundNames.elementAt(idx)),
+                "Error Loading Image", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            
+            System.out.println("Sounds");
+            /* audioInputStream = AudioSystem.getAudioInputStream(new File(filePath).getAbsoluteFile());
+            clip = AudioSystem.getClip();
+            clip.open(audioInputStream);
+            clip.loop(Clip.LOOP_CONTINUOUSLY);
+            //m_vSoundNames.add(filePath);
+            */
+            System.out.print("sound shoulda played");
+           // m_TheSound.play();
+            
+        
+        }
 	//----------------------------------------------------------------------
 	/** Main function for this demonstration
 	 * @param args - Array of strings from the command line
